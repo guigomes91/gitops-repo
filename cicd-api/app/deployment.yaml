@@ -17,7 +17,7 @@ spec:
         - name: harbor-registry
       containers:
         - name: cicd-api
-          image: harbor.cicd.svc.cluster.local/cicd/cicd-api:2
+          image: harbor-registry.cicd.svc.cluster.local:5000/cicd/cicd-api:2
           ports:
             - containerPort: 8080
           resources:
