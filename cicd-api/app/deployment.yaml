@@ -3,29 +3,39 @@ kind: Deployment
 metadata:
   name: cicd-api
   namespace: cicd-api
+  labels:
+    app: cicd-api
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: cicd-api
+
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
+
+  selector:
+    matchLabels:
+      app: cicd-api
+
   template:
     metadata:
       labels:
         app: cicd-api
+
     spec:
       imagePullSecrets:
         - name: harbor-registry
+
       containers:
         - name: cicd-api
-          image: harbor.cicd.svc.cluster.local/cicd/cicd-api:42
+          image: harbor.cicd.svc.cluster.local/cicd/cicd-api:{{TAG}}
           imagePullPolicy: IfNotPresent
+
           ports:
             - containerPort: 8080
+              name: http
+
           resources:
             requests:
               cpu: "250m"
@@ -33,15 +43,21 @@ spec:
             limits:
               cpu: "500m"
               memory: "768Mi"
+
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
