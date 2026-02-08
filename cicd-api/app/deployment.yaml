@@ -29,7 +29,7 @@ spec:
 
       containers:
         - name: cicd-api
-          image: harbor.cicd.svc.cluster.local/cicd/cicd-api:24
+          image: harbor.cicd.svc.cluster.local/cicd/cicd-api:25
           imagePullPolicy: IfNotPresent
 
           ports:
