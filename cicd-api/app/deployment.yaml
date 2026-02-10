@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: cicd-api
-          image: localhost:5000/cicd/cicd-api:25
+          image: localhost:5000/cicd/cicd-api:30
           imagePullPolicy: IfNotPresent
 
           ports:
